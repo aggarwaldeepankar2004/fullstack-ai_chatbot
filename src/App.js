@@ -1,25 +1,25 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
+import Sidebar from "./components/Sidebar/Sidebar.js";
+import ChatWindow from "./components/chat-window/ChatWindow.js";
 import './App.css';
 
-function App() {
+export default function App() {
+  const [activeChatId, setActiveChatId] = useState(null);
+  const [firstPrompt, setFirstPrompt] = useState("");
+
+  const handleNewChat = (id) => {
+    setActiveChatId(id);
+  };
+
+  const handleFirstPrompt = (prompt) => {
+    console.log("Received first prompt:", prompt);
+    setFirstPrompt(prompt);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Sidebar onSelectChat={setActiveChatId} onNewChat={handleNewChat} activeChatId={activeChatId} chatTitle={firstPrompt}></Sidebar>
+      <ChatWindow chatId={activeChatId} onFirstPrompt={handleFirstPrompt}></ChatWindow>
+    </>
   );
 }
-
-export default App;
